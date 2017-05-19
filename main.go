@@ -1,5 +1,7 @@
 package main
 
+import "github.com/dannyyu92/scraper/scraper"
+
 func main() {
-	Scrape()
+	scraper.Scrape()
 }
