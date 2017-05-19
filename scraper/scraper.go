@@ -1,13 +1,17 @@
 package scraper
 
 import (
+	"io/ioutil"
 	"log"
 	"net/http"
 	"net/url"
 )
 
+const HogdonMeadowURL = "https://www.recreation.gov/camping/hodgdon-meadow/r/campgroundDetails.do?contractCode=NRSO&parkId=70929"
+
 func Scrape() {
-	proxyString := "https://47.91.179.xxx:443"
+	//http://proxylist.hidemyass.com/search-1291967#listable
+	proxyString := "http://97.77.104.22"
 	proxyURL, err := url.Parse(proxyString)
 	if err != nil {
 		panic("Failed to parse proxy string")
@@ -21,9 +25,14 @@ func Scrape() {
 	}
 
 	client := &http.Client{Transport: tr}
-	resp, err := client.Get("https://example.com")
+	resp, err := client.Get(HogdonMeadowURL)
 	if err != nil {
 		panic(err.Error())
 	}
-	log.Println(resp.Body)
+	bodyBytes, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		panic(err.Error())
+	}
+	bodyString := string(bodyBytes)
+	log.Println(bodyString)
 }
